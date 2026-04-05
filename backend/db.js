@@ -1,6 +1,8 @@
+const dotenv = require('dotenv')
 const mongoose = require('mongoose')
+dotenv.config();
 
-mongoose.connect('mongodb+srv://admin:tBiLoEWFPhxpVhZI@cluster0.mvkomnu.mongodb.net/react-todo')
+mongoose.connect(process.env.DB_URL)
 
 const todoSchema = mongoose.Schema({
     title: String,
