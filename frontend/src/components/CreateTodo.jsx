@@ -1,10 +1,9 @@
+import { useEffect } from "react";
 import { useState } from "react";
 
 export function CreateTodo() {
   const [title, setTitle] = useState([]);
   const [description, setDescription] = useState([]);
-
-  function addTodo(){}
 
   return (
     <div>
@@ -30,7 +29,19 @@ export function CreateTodo() {
       ></input>
       <br></br>
       <br></br>
-      <button>add todo</button>
+      <button onClick={()=>{
+          fetch('http://localhost:8001/todo',{
+            method:"POST",
+            body:JSON.stringify({
+              title: title,
+              description: description
+            }),
+            headers:{"content-type":"application/json"}
+          }).then(async(res)=>{
+            const json = await res.json();
+            res.send(json) 
+          })
+      }}>add todo</button>
       <br></br>
       <br></br>
     </div>
