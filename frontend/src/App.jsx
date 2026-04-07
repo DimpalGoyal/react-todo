@@ -3,7 +3,7 @@ import { CreateTodo } from './components/CreateTodo'
 import { Todo } from './components/Todos'
 import { useEffect } from 'react'
 
-function App() {
+function useTodos(){
   const [todos, setTodos] = useState([])
   useEffect(()=>{
   fetch('http://localhost:8001/todos').then( async(res)=>{
@@ -11,7 +11,11 @@ function App() {
     setTodos(json.allTodos)
   }) 
   },[])
+  return todos;
+}
 
+function App() {
+  const todos = useTodos();
   return (
     <>
       <CreateTodo/>
