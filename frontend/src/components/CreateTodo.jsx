@@ -39,7 +39,7 @@ export function CreateTodo() {
             headers:{"content-type":"application/json"}
           }).then(async(res)=>{
             const json = await res.json();
-            res.send(json) 
+            res.send({json}) 
           })
       }}>add todo</button>
       <br></br>
