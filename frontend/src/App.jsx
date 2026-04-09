@@ -1,24 +1,28 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { CreateTodo } from './components/CreateTodo'
 import { Todo } from './components/Todos'
 import { useEffect } from 'react'
 
 function useTodos(){
   const [todos, setTodos] = useState([])
-  useEffect(()=>{
-  fetch('http://localhost:8001/todos').then( async(res)=>{
+
+  const fetchTodos = async() => {
+    const res = await fetch('http://localhost:8001/todos')
     const json = await res.json()
     setTodos(json.allTodos)
-  }) 
+  }
+
+  useEffect(()=>{
+    fetchTodos()
   },[])
-  return todos;
+  return { todos, refetch: fetchTodos }
 }
 
 function App() {
-  const todos = useTodos();
+  const { todos, refetch } = useTodos();
   return (
     <>
-      <CreateTodo/>
+      <CreateTodo onSuccess={refetch} />
       <Todo todos={todos}/>
     </>
   )

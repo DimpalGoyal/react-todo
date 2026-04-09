@@ -1,10 +1,20 @@
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { useState } from "react";
 
-export function CreateTodo() {
+export function CreateTodo({ onSuccess }) {
   const [title, setTitle] = useState([]);
   const [description, setDescription] = useState([]);
-
+  const handleBtn = async () => {
+    await fetch("http://localhost:8001/todo", {
+      method: "POST",
+      body: JSON.stringify({
+        title: title,
+        description: description,
+      }),
+      headers: { "content-type": "application/json" },
+    });
+    onSuccess();
+  };
   return (
     <div>
       <input
@@ -29,19 +39,7 @@ export function CreateTodo() {
       ></input>
       <br></br>
       <br></br>
-      <button onClick={()=>{
-          fetch('http://localhost:8001/todo',{
-            method:"POST",
-            body:JSON.stringify({
-              title: title,
-              description: description
-            }),
-            headers:{"content-type":"application/json"}
-          }).then(async(res)=>{
-            const json = await res.json();
-            res.send({json}) 
-          })
-      }}>add todo</button>
+      <button onClick={handleBtn}>add todo</button>
       <br></br>
       <br></br>
     </div>
